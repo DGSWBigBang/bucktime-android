@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="personalText">#5C3619</color>
+    <color name="personalButton">#905521</color>
+    <color name="personalLight">#AF7B4D</color>
 </resources>
