@@ -5,4 +5,6 @@
     <string name="time_text">예약</string>
     <string name="cafe_text">주문</string>
     <string name="manager_text">내 정보</string>
+
+    <string name="timebucks">timebucks</string>
 </resources>
