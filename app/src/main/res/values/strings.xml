@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">timeBucks</string>
+
+    <string name="map_text">지도</string>
+    <string name="time_text">예약</string>
+    <string name="cafe_text">주문</string>
+    <string name="manager_text">내 정보</string>
 </resources>
