@@ -16,7 +16,7 @@ class ServerCommu{
     fun LoadCafe(thiss: Activity, callback: (ArrayList<CafeInfo>) -> Unit) {
         queue = Volley.newRequestQueue(thiss)
 
-        var url = "https://timebucks.kro.kr/cafe/show"
+        var url = "http://timebucks.kro.kr/cafe/show"
         var cafeInfo: CafeInfo? = null
 
         val stringRequest = JsonArrayRequest(
