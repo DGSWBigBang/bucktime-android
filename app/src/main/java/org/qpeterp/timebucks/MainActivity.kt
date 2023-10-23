@@ -14,11 +14,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-
-
-
-
-
 //        Log.d("onCreate", "complete")
 //        val cafeInformation = serverCommu.LoadCafe(this) { arr ->
 //            binding.data.text = "${arr.count()}"
