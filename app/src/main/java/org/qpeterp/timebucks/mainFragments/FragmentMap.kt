@@ -41,4 +41,3 @@ class FragmentMap : Fragment(), OnMapReadyCallback {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation))
     }
 }
-
