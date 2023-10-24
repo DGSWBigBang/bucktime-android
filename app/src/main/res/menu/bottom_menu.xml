@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/home_menu"
+        android:id="@+id/map_menu"
         android:title="@string/map_text"
         android:icon="@drawable/menu_map"
         android:enabled="true"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/food_menu"
+        android:id="@+id/time_menu"
         android:title="@string/time_text"
         android:icon="@drawable/menu_time"
         android:enabled="true"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/moningSong_menu"
+        android:id="@+id/cafe_menu"
         android:title="@string/cafe_text"
         android:icon="@drawable/menu_coffee"
         android:enabled="true"
