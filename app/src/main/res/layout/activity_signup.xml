@@ -66,6 +66,7 @@
         android:fontFamily="@font/pretendard_medium"
         android:hint="• • • • • • • •"
         android:textSize="15dp"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
