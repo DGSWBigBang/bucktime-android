@@ -1,4 +1,4 @@
-package org.qpeterp.timebucks
+package org.qpeterp.timebucks.dataClass
 
 data class CafeInfo(
     val address: String,

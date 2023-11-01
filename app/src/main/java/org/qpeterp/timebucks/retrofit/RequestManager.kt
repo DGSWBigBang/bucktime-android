@@ -1,9 +1,8 @@
 package org.qpeterp.timebucks.retrofit
 
 import android.util.Log
-import android.widget.Toast
-import org.qpeterp.timebucks.CafeInfo
-import org.qpeterp.timebucks.MainMainActivity
+import org.qpeterp.timebucks.dataClass.CafeInfo
+import org.qpeterp.timebucks.dataClass.CafeReservation
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,29 +17,94 @@ class RequestManager {
 
     private val apiService: ApiService = retrofit.create(ApiService::class.java)
 
-    fun getCafeInfo(callback: (ApiRespense<ArrayList<CafeInfo>>) -> Unit) {
+    fun getCafeInfo(callback: (ArrayList<CafeInfo>) -> Unit) {
         val call = apiService.getCafeData()
 
-        call.enqueue(object : Callback<ApiRespense<ArrayList<CafeInfo>>> {
-            override fun onResponse(call: Call<ApiRespense<ArrayList<CafeInfo>>>, response: Response<ApiRespense<ArrayList<CafeInfo>>>) {
+        call.enqueue(object : Callback<ArrayList<CafeInfo>> {
+            override fun onResponse(call: Call<ArrayList<CafeInfo>>, response: Response<ArrayList<CafeInfo>>) {
+                Log.d("getCafeInfo is Sucessful!_0", "$response")
                 if (response.isSuccessful) {
-                    // 날씨 데이터를 처리하는 코드를 작성
+                    Log.d("getCafeInfo is Sucessful!_1", "$response")
+                    val apiResponse = response.body() ?: return
+                    Log.d("getCafeInfo is Sucessful!_2", "$response")
 
-                    val apiResponse = response.body()
-                    val data = apiResponse
-
-                    callback(data!!)
-
-                } else {
-                    // 에러 처리
-                    Log.d("resdataError","${response.code()}")
+                    callback(apiResponse)
                 }
-            }
+                Log.d("if문 작동 X", "$response")
 
-            override fun onFailure(call: Call<ApiRespense<ArrayList<CafeInfo>>>, t: Throwable) {
+            }
+            override fun onFailure(call: Call<ArrayList<CafeInfo>>, t: Throwable) {
                 // 통신 실패 처리
                 Log.d("errorrrrr", "${t}, ${call}")
             }
         })
     }
+
+    fun getReservation(callback: (ArrayList<CafeReservation>) -> Unit) {
+        val call = apiService.getReservation()
+        Log.d("requManager getReservation", "successful!")
+
+        call.enqueue(object : Callback<ArrayList<CafeReservation>> {
+            override fun onResponse(call: Call<ArrayList<CafeReservation>>, response: Response<ArrayList<CafeReservation>>) {
+                Log.d("response is Successful_1", "successful!")
+                val apiResponse = response.body() ?: return
+                Log.d("response is Successful_2", "successful!")
+
+                callback(apiResponse)
+                Log.d("callback success", "successful!")
+
+            }
+            override fun onFailure(call: Call<ArrayList<CafeReservation>>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("errorrrrr", "${t}, $call")
+            }
+        })
+
+        Log.d("하하 안되노", "시시히히!")
+
+    }
+
+
+//    fun getCafeInfo(callback: (ApiRespense<ArrayList<CafeInfo>>) -> Unit) {
+//        val call = apiService.getCafeData()
+//
+//        call.enqueue(object : Callback<ApiRespense<ArrayList<CafeInfo>>> {
+//            override fun onResponse(call: Call<ApiRespense<ArrayList<CafeInfo>>>, response: Response<ApiRespense<ArrayList<CafeInfo>>>) {
+//                if (response.isSuccessful) {
+//                    val apiResponse = response.body() ?: return
+//
+//                    callback(apiResponse)
+//                }
+//            }
+//            override fun onFailure(call: Call<ApiRespense<ArrayList<CafeInfo>>>, t: Throwable) {
+//                // 통신 실패 처리
+//                Log.d("errorrrrr", "${t}, ${call}")
+//            }
+//        })
+//    }
+
+//    fun getReservation(callback: (ApiRespense<ArrayList<CafeReservation>>) -> Unit) {
+//        val call = apiService.getReservation()
+//        Log.d("requManager getReservation", "successful!")
+//
+//        call.enqueue(object : Callback<ApiRespense<ArrayList<CafeReservation>>> {
+//            override fun onResponse(call: Call<ApiRespense<ArrayList<CafeReservation>>>, response: Response<ApiRespense<ArrayList<CafeReservation>>>) {
+//                Log.d("response is Successful_1", "successful!")
+//                val apiResponse = response.body() ?: return
+//                Log.d("response is Successful_2", "successful!")
+//
+//                callback(apiResponse)
+//                Log.d("callback success", "successful!")
+//
+//
+//            }
+//            override fun onFailure(call: Call<ApiRespense<ArrayList<CafeReservation>>>, t: Throwable) {
+//                // 통신 실패 처리
+//                Log.d("errorrrrr", "${t}, $call")
+//            }
+//        })
+//
+//        Log.d("하하 안되노", "시시히히!")
+//
+//    }
 }

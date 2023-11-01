@@ -22,14 +22,6 @@ class MainMainActivity : AppCompatActivity() {
 
         setFragmentAndBar()
 
-        requestManager.getCafeInfo {
-            if (it.success == false) {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-                Log.d("asdfasdf", it.error)
-            }
-            Toast.makeText(this, "${it.response}", Toast.LENGTH_SHORT).show()
-        }
-
     }
 
     private fun setFragmentAndBar() {

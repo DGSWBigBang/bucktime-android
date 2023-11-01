@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/cafe_textview_background"
+    android:weightSum="10"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/idCafeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/idCafeDeskIdx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3번 좌석"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:layout_weight="2"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/idCafeTimeStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12:00~"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/idCafeTimeEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14:00"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/idCafeUsed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사용됨"
+        android:layout_weight="1"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
+</LinearLayout>
