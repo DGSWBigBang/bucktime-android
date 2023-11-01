@@ -6,10 +6,11 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import org.qpeterp.timebucks.databinding.ActivitySignupBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
+import org.qpeterp.timebucks.retrofit.UserRequestManager
 
 class SignupActivity : AppCompatActivity() {
     private val binding by lazy { ActivitySignupBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
+    private val userRequestManager = UserRequestManager()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -21,7 +22,7 @@ class SignupActivity : AppCompatActivity() {
             var loginRequest = LoginRequest(pw, email)
             Log.d("Request Data", "$loginRequest")
             Log.d("Response before", "yes")
-            requestManager.login(loginRequest) {
+            userRequestManager.login(loginRequest) {
                 Log.d("Response Result", "asdfsdfsdf")
                 if(it != null) {
                     val sharedPreferences = getSharedPreferences("token", MODE_PRIVATE)

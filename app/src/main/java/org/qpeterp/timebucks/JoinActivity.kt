@@ -8,17 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import org.qpeterp.timebucks.databinding.ActivityJoinBinding
 import org.qpeterp.timebucks.databinding.ActivityStartBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
+import org.qpeterp.timebucks.retrofit.UserRequestManager
 import kotlin.math.log
 
 class JoinActivity : AppCompatActivity() {
     private val binding by lazy { ActivityJoinBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
+    private val userRequestManager = UserRequestManager()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         binding.idJoinButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
             val phoneNumber = binding.textInputEditText5.text.toString()
             val email = binding.textInputEditText.text.toString()
             val username = binding.textInputEditText4.text.toString()
@@ -35,14 +35,12 @@ class JoinActivity : AppCompatActivity() {
             }
 
             val joinRequest = JoinRequest(phoneNumber, email, username, password)
-            requestManager.register(joinRequest) {
-                    if (it.message == "회원가입 완료") {
-                        val joinIntent = Intent(this, SignupActivity::class.java)
-                        startActivity(joinIntent)
-                    }
+            userRequestManager.register(joinRequest) {
+                if (it.message == "회원가입 완료") {
+                    val joinIntent = Intent(this, SignupActivity::class.java)
+                    startActivity(joinIntent)
                 }
-
-
             }
         }
     }
+}

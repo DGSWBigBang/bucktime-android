@@ -21,7 +21,7 @@ import kotlin.math.log
 class RequestManager {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.80.162.105:8080")
+        .baseUrl("http://timebucks.kro.kr")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -52,41 +52,6 @@ class RequestManager {
             override fun onFailure(call: Call<ApiRespense<ArrayList<CafeInfo>>>, t: Throwable) {
                 // 통신 실패 처리
                 Log.d("errorrrrr", "${t}, ${call}")
-            }
-        })
-    }
-
-    fun login(loginData: LoginRequest, callback: (LoginResponse) -> Unit) {
-        Log.d("Response Already Before", "yes")
-        val loginCall = apiService.login(loginData)
-        loginCall.enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                val loginResponse = response.body() ?: return
-                Log.d("Response Success", "Login Response is Success")
-                callback(loginResponse)
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Log.d("Response Error", "Login Response is Error", t)
-            }
-        })
-    }
-
-    fun register(joinRequest: JoinRequest, callback: (StringResponse) -> Unit) {
-        val registerCall = apiService.create(joinRequest)
-        registerCall.enqueue(object : Callback<StringResponse> {
-            override fun onResponse(
-                call: Call<StringResponse>,
-                response: Response<StringResponse>
-            ) {
-
-                val joinResponse = response.body() ?: return
-                Log.d("JoinResponse Success", response.body()!!.message)
-                callback(joinResponse)
-            }
-
-            override fun onFailure(call: Call<StringResponse>, t: Throwable) {
-                Log.d("JoinResponse Error", "response is error", t)
             }
         })
     }
