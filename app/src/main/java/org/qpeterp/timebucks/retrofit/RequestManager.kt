@@ -21,7 +21,7 @@ import kotlin.math.log
 class RequestManager {
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://10.80.162.7:8080")
+        .baseUrl("http://10.80.162.105:8080")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
