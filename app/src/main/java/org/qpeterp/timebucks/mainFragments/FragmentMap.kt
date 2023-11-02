@@ -17,11 +17,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -34,7 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.qpeterp.timebucks.R
 import org.qpeterp.timebucks.databinding.FragmentMapBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
-
 
 class FragmentMap : Fragment(),OnMapReadyCallback {
     private val binding by lazy { FragmentMapBinding.inflate(layoutInflater) }
@@ -61,7 +55,6 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
         savedInstanceState: Bundle?,
     ): View? {
         isFirstLocationUpdate = true
-
         val rootView = inflater.inflate(R.layout.fragment_map,container,false)
         mapView = rootView.findViewById(binding.idGoogleMaps.id) as MapView
         mapView.onCreate(savedInstanceState)
@@ -95,7 +88,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
 
             val cameraPosition = CameraPosition.Builder()
                 .target(target) // 이동할 위치
-                .zoom(15f) // 줌 레벨 설정
+                .zoom(12f) // 줌 레벨 설정
                 .build()
 
             try {
@@ -113,7 +106,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
 
     private fun toStartMapCafe() {
         requestManager.getCafeInfo {
-            for (i in 1..it.size) {
+            for (i in 0 until it.size) {
                 setMarkersCafe(it[i].cafeName, it[i].latitude.toDouble(), it[i].longitude.toDouble())
             }
         }
@@ -128,7 +121,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
 
             try {
                 mGoogleMap.addMarker(markerOptions)?.showInfoWindow()
-                Log.d("setMArkers 실행", "제발좀")
+                Log.d("setMArkersCafe 실행", "제발좀")
             } catch (e:Exception) {
                 Log.d("bugbugbug", "$e")
             }
@@ -166,13 +159,8 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
             .setTitle("권한 거부")
             .setMessage("권한 거부시 앱을 이용하실 수 없습니다.")
             .setPositiveButton(
-                "권한 요청 받기"
-            ) { dialogInterface, i -> startLocationPermissionRequest()}
-            .setNegativeButton(
-                "뒤로가기"
-            ) { dialogInterface, i ->
-                activity?.finish()
-            }
+                "권한 요청"
+            ) { _, _ -> startLocationPermissionRequest()}
         val msgDlg = msgBuilder.create()
         msgDlg.show()
     }

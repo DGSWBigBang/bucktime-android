@@ -1,6 +1,7 @@
 package org.qpeterp.timebucks.mainFragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class FragmentTime: Fragment() {
 
         requestManager.getCafeInfo {
             binding.idText.text = it.toString()
+            Log.d("CafeInFoYes", "$it")
         }
 
         return binding.root

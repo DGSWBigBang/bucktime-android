@@ -3,6 +3,7 @@ package org.qpeterp.timebucks.retrofit
 import android.util.Log
 import org.qpeterp.timebucks.dataClass.CafeInfo
 import org.qpeterp.timebucks.dataClass.CafeReservation
+import org.qpeterp.timebucks.dataClass.UserInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RequestManager {
+
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://timebucks.kro.kr")
         .addConverterFactory(GsonConverterFactory.create())
@@ -29,6 +31,9 @@ class RequestManager {
                     Log.d("getCafeInfo is Sucessful!_2", "$response")
 
                     callback(apiResponse)
+                } else {
+                    // 에러 처리
+                    Log.d("resdataError", "${response.code()}")
                 }
                 Log.d("if문 작동 X", "$response")
 
@@ -64,47 +69,26 @@ class RequestManager {
 
     }
 
+    fun getUserData(callback: (UserInfo) -> Unit) {
+        val call = apiService.getUserData()
+        Log.d("requManager getReservationUser", "successful!")
 
-//    fun getCafeInfo(callback: (ApiRespense<ArrayList<CafeInfo>>) -> Unit) {
-//        val call = apiService.getCafeData()
-//
-//        call.enqueue(object : Callback<ApiRespense<ArrayList<CafeInfo>>> {
-//            override fun onResponse(call: Call<ApiRespense<ArrayList<CafeInfo>>>, response: Response<ApiRespense<ArrayList<CafeInfo>>>) {
-//                if (response.isSuccessful) {
-//                    val apiResponse = response.body() ?: return
-//
-//                    callback(apiResponse)
-//                }
-//            }
-//            override fun onFailure(call: Call<ApiRespense<ArrayList<CafeInfo>>>, t: Throwable) {
-//                // 통신 실패 처리
-//                Log.d("errorrrrr", "${t}, ${call}")
-//            }
-//        })
-//    }
+        call.enqueue(object : Callback<UserInfo> {
+            override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
+                Log.d("apiResponse의 값이 null 임;;", "ㄹㅇㅋㅋ")
+                val apiResponse = response.body() ?: return
 
-//    fun getReservation(callback: (ApiRespense<ArrayList<CafeReservation>>) -> Unit) {
-//        val call = apiService.getReservation()
-//        Log.d("requManager getReservation", "successful!")
-//
-//        call.enqueue(object : Callback<ApiRespense<ArrayList<CafeReservation>>> {
-//            override fun onResponse(call: Call<ApiRespense<ArrayList<CafeReservation>>>, response: Response<ApiRespense<ArrayList<CafeReservation>>>) {
-//                Log.d("response is Successful_1", "successful!")
-//                val apiResponse = response.body() ?: return
-//                Log.d("response is Successful_2", "successful!")
-//
-//                callback(apiResponse)
-//                Log.d("callback success", "successful!")
-//
-//
-//            }
-//            override fun onFailure(call: Call<ApiRespense<ArrayList<CafeReservation>>>, t: Throwable) {
-//                // 통신 실패 처리
-//                Log.d("errorrrrr", "${t}, $call")
-//            }
-//        })
-//
-//        Log.d("하하 안되노", "시시히히!")
-//
-//    }
+                Log.d("callback successUser", "successful!")
+                callback(apiResponse)
+
+            }
+            override fun onFailure(call: Call<UserInfo>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("errorrrrr", "${t}, $call")
+            }
+        })
+
+        Log.d("하하 안되노", "시시히히!")
+
+    }
 }

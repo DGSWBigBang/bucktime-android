@@ -30,7 +30,9 @@ class MainMainActivity : AppCompatActivity() {
         val timeFragment = FragmentTime()
         val myPageFragment = FragmentMyPage()
 
+
         setCurrentFragment(mapFragment)
+
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {

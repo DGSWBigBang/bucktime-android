@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
         val startToSignupIntent = Intent(this, SignupActivity::class.java)
 
+        val joinToLoginIntent = Intent(this, JoinActivity::class.java)
+
+
         binding.startJoin.setOnClickListener{
             try {
                 startActivity(startToSignupIntent)
