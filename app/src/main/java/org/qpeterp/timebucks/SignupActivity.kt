@@ -15,6 +15,12 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.orJoin.setOnClickListener {
+            val loginToJoinIntent = Intent(this, JoinActivity::class.java)
+            startActivity(loginToJoinIntent)
+            finish()
+        }
+
         binding.idSigninButton.setOnClickListener {
             val email = binding.textInputEditText.text.toString()
             val pw = binding.textInputEditText6.text.toString()
@@ -25,7 +31,7 @@ class SignupActivity : AppCompatActivity() {
             userRequestManager.login(loginRequest) {
                 Log.d("Response Result", "asdfsdfsdf")
                 if(it != null) {
-                    try {
+                     try {
                         val sharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putString("accessToken", it.accessToken)
