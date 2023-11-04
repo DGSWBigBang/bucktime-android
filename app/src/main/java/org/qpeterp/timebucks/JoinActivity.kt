@@ -14,6 +14,12 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.orSignup.setOnClickListener {
+            val joinToSignupIntent = Intent(this, SignupActivity::class.java)
+            startActivity(joinToSignupIntent)
+            finish()
+        }
+
         binding.idJoinButton.setOnClickListener {
             val phoneNumber = binding.textInputEditText5.text.toString()
             val email = binding.textInputEditText.text.toString()
