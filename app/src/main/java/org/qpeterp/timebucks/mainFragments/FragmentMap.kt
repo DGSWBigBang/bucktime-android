@@ -3,7 +3,9 @@ package org.qpeterp.timebucks.mainFragments
 import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -19,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -26,16 +29,19 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import org.qpeterp.timebucks.cafeInfoViewer.PopupActivity
 import org.qpeterp.timebucks.R
 import org.qpeterp.timebucks.databinding.FragmentMapBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
 
-class FragmentMap : Fragment(),OnMapReadyCallback {
+
+class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
     private val binding by lazy { FragmentMapBinding.inflate(layoutInflater) }
     private lateinit var mGoogleMap: GoogleMap
     private var isFirstLocationUpdate = true
     private var marker: Marker? = null
     private val requestManager = RequestManager()
+    private var tOrF = -1
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -61,8 +67,6 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
         mapView.getMapAsync(this)
 
         checkPermission()
-        toStartMapCafe()
-
         Log.d("onCreateViewasdf", "asdfasdfasdf")
 
         return rootView
@@ -78,30 +82,24 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
     }
 
     private fun setMarkers(latitude: Double, longitude: Double) {
-        try {
-            val selfMarkerOptions = MarkerOptions()
-                .position(LatLng(latitude, longitude))
-                .title("내 위치")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.marker_self_postion)
 
-            val target = LatLng(latitude, longitude)
+        val selfMarkerOptions = MarkerOptions()
+            .position(LatLng(latitude, longitude))
+            .title("내 위치")
+            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
 
-            val cameraPosition = CameraPosition.Builder()
-                .target(target) // 이동할 위치
-                .zoom(12f) // 줌 레벨 설정
-                .build()
+        val target = LatLng(latitude, longitude)
 
-            try {
-                marker = mGoogleMap.addMarker(selfMarkerOptions)
-                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-                mGoogleMap.addMarker(selfMarkerOptions)?.showInfoWindow()
-                Log.d("setMArkers 실행", "제발좀")
-            } catch (e:Exception) {
-                Log.d("bugbugbug", "$e")
-            }
-        } catch (e:Exception) {
-            Log.d("setMarkersOk?", "$e")
-        }
+        val cameraPosition = CameraPosition.Builder()
+            .target(target) // 이동할 위치
+            .zoom(12f) // 줌 레벨 설정
+            .build()
+
+            marker = mGoogleMap.addMarker(selfMarkerOptions)
+            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            mGoogleMap.addMarker(selfMarkerOptions)?.showInfoWindow()
+            Log.d("setMArkers 실행", "제발좀")
     }
 
     private fun toStartMapCafe() {
@@ -113,43 +111,54 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
     }
 
     private fun setMarkersCafe(title: String, latitude: Double, longitude: Double) {
-        try {
-            val markerOptions = MarkerOptions()
-                .position(LatLng(latitude, longitude))
-                .title("$title")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+        val markerOptions = MarkerOptions()
+            .position(LatLng(latitude, longitude))
+            .title("$title")
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
 
-            try {
-                mGoogleMap.addMarker(markerOptions)?.showInfoWindow()
-                Log.d("setMArkersCafe 실행", "제발좀")
-            } catch (e:Exception) {
-                Log.d("bugbugbug", "$e")
-            }
-        } catch (e:Exception) {
-            Log.d("setMarkersOk?", "$e")
-        }
+        mGoogleMap.addMarker(markerOptions)?.showInfoWindow()
+        mGoogleMap.setOnMarkerClickListener(this)
     }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val title = marker.title
+        Log.d("titleMarker", "확인 로그")
+        if (title != null) {
+            // 여기서 title을 기반으로 어떤 카페를 클릭했는지 확인하고 해당 동작을 수행
+            when (title) {
+                "엄카페" -> {
+                    Log.d("titleMarker", "확인된 title: $title")
+                    tOrF = 0
+                    onSetViewCafeData()
+                }
+                "이슬카페" -> {
+                    // 카페2를 클릭한 경우 실행할 동작
+                    tOrF = 1
+                    onSetViewCafeData()
+                }
+
+            }
+
+        }
+        return true
+    }
+
 
     // 마커를 삭제하는 함수
     private fun removeMarker() {
         marker?.remove() // 마커가 null이 아닌 경우에만 삭제
     }
 
-
     private fun checkPermission() {
-        try {
-            // 권한 체크해서 권한이 있을 때
-            if(ContextCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                Log.d("asdfasdf", "have permission")
-                findLocation()
-            }
-            // 권한이 없을 때 권한을 요구함
-            else {
-                startLocationPermissionRequest()
-            }
-        } catch (e:Exception) {
-            Log.d("checkPermission", "$e")
+        // 권한 체크해서 권한이 있을 때
+        if(ContextCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            Log.d("asdfasdf", "have permission")
+            findLocation()
+        }
+        // 권한이 없을 때 권한을 요구함
+        else {
+            startLocationPermissionRequest()
         }
 
     }
@@ -166,7 +175,6 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
     }
 
     private fun findLocation() {
-        try {
             // 위치 정보를 가져오는데 사용할 LocationListener를 초기화
             val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
@@ -184,25 +192,22 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
 
             val locationListener = object : LocationListener {
                 override fun onLocationChanged(location: Location) {
-                    try {
-                        Log.d("findLocation override", "asdfasdf")
+                    Log.d("findLocation override", "asdfasdf")
 
-                        val longitude = location.longitude
-                        val latitude = location.latitude
-                        Log.d("LocationListener", "위도경도: $longitude $latitude")
-                        if (isFirstLocationUpdate) {
-                            isFirstLocationUpdate = false
-                            setMarkers(latitude, longitude)
-                        }
-
-                        // 딜레이를 주기 위해 Handler를 사용
-                        Handler().postDelayed({
-                            removeMarker()
-                            setMarkers(latitude, longitude)
-                        }, 60000) // 1분에 한 번씩 호출
-                    } catch (e:Exception) {
-                        Log.d("asdfasdfasdfasdf", "$e")
+                    val longitude = location.longitude
+                    val latitude = location.latitude
+                    Log.d("LocationListener", "위도경도: $longitude $latitude")
+                    if (isFirstLocationUpdate) {
+                        isFirstLocationUpdate = false
+                        setMarkers(latitude, longitude)
+                        toStartMapCafe()
                     }
+
+                    // 딜레이를 주기 위해 Handler를 사용
+                    Handler().postDelayed({
+                        removeMarker()
+                        setMarkers(latitude, longitude)
+                    }, 6000000) // 대충 오래뒤에 호출
 
 
                     // 위치 정보를 가져온 후 필요한 작업을 수행
@@ -229,10 +234,6 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
                 return
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
-
-        } catch (e:Exception) {
-            Log.d("findLocationOk", "$e")
-        }
     }
 
     override fun onStart() {
@@ -264,4 +265,13 @@ class FragmentMap : Fragment(),OnMapReadyCallback {
         super.onDestroy()
         mapView.onDestroy()
     }
+
+    private fun onSetViewCafeData() {
+        Log.d("onSetViewCafeData", "함수가 호출됨")
+        //데이터 담아서 팝업(액티비티) 호출
+        val intent = Intent(activity, PopupActivity::class.java)
+        intent.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
+        startActivity(intent)
+    }
+
 }

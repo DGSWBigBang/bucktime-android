@@ -7,5 +7,8 @@ data class CafeInfo(
     val cafeName: String,
     val ownerMail: String,
     val latitude: String,
-    val longitude: String
+    val longitude: String,
+    val callNumber: String,
+    val openTime: String,
+    val closeTime: String
 )

@@ -28,7 +28,7 @@ class RequestManager {
                 if (response.isSuccessful) {
                     Log.d("getCafeInfo is Sucessful!_1", "$response")
                     val apiResponse = response.body() ?: return
-                    Log.d("getCafeInfo is Sucessful!_2", "$response")
+                    Log.d("getCafeInfo is Sucessful!_2", "$apiResponse")
 
                     callback(apiResponse)
                 } else {
