@@ -51,4 +51,5 @@ class MainMainActivity : AppCompatActivity() {
     private fun setCurrentFragment(pFragment: Fragment) {
         supportFragmentManager.beginTransaction().replace(binding.flFragment.id, pFragment).commit()
     }
+
 }

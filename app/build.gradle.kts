@@ -52,6 +52,9 @@ dependencies {
     // bottom sheet
     implementation ("com.google.android.material:material:1.10.0")
 
+    // recyclerView
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")

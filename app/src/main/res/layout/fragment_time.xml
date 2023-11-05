@@ -3,13 +3,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/idText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="히히 예약"
-        android:textSize="50sp"
-        android:textAlignment="center"
-        android:gravity="center"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

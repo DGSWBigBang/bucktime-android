@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.qpeterp.timebucks.cafeInfoViewer.PopupActivity
 import org.qpeterp.timebucks.R
+import org.qpeterp.timebucks.cafeInfoViewer.OrderCafeActivity
 import org.qpeterp.timebucks.databinding.FragmentMapBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
 
@@ -269,9 +270,15 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
     private fun onSetViewCafeData() {
         Log.d("onSetViewCafeData", "함수가 호출됨")
         //데이터 담아서 팝업(액티비티) 호출
-        val intent = Intent(activity, PopupActivity::class.java)
-        intent.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
-        startActivity(intent)
+        try {
+            val intent = Intent(activity, PopupActivity::class.java)
+            intent.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
+
+            startActivity(intent)
+        } catch (e:Exception) {
+            Log.d("onSetViewCafeDataBug", "$e")
+        }
+
     }
 
 }
