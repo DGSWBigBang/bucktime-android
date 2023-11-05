@@ -10,6 +10,7 @@ import org.qpeterp.timebucks.retrofit.UserRequestManager
 class JoinActivity : AppCompatActivity() {
     private val binding by lazy { ActivityJoinBinding.inflate(layoutInflater) }
     private val userRequestManager = UserRequestManager()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -38,6 +39,8 @@ class JoinActivity : AppCompatActivity() {
 
             val joinRequest = JoinRequest(phoneNumber, email, username, password)
             userRequestManager.register(joinRequest) {
+
+
                 if (it.message == "회원가입 완료") {
                     val joinIntent = Intent(this, SignupActivity::class.java)
                     startActivity(joinIntent)

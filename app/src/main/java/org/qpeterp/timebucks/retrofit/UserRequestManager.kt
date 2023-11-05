@@ -1,6 +1,7 @@
 package org.qpeterp.timebucks.retrofit
 
 import android.util.Log
+import org.qpeterp.timebucks.CafeTableResponse
 import org.qpeterp.timebucks.JoinRequest
 import org.qpeterp.timebucks.LoginRequest
 import org.qpeterp.timebucks.LoginResponse
@@ -50,6 +51,21 @@ class UserRequestManager {
 
             override fun onFailure(call: Call<StringResponse>, t: Throwable) {
                 Log.d("JoinResponse Error", "${t.message}", t)
+            }
+        })
+    }
+
+    fun cafe(cafeIdx: Int, callback: (CafeTableResponse) -> Unit) {
+        val cafeCall = apiService.showCafeDesk(cafeIdx)
+        cafeCall.enqueue(object : Callback<CafeTableResponse> {
+            override fun onResponse(call: Call<CafeTableResponse>, response: Response<CafeTableResponse>) {
+                val cafeResponse = response.body() ?: return
+                callback(cafeResponse)
+
+            }
+
+            override fun onFailure(call: Call<CafeTableResponse>, t: Throwable) {
+                Log.d("Cafe Response Error", "Cafe Response is Error", t)
             }
         })
     }

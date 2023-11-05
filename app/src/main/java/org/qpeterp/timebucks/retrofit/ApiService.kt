@@ -1,5 +1,6 @@
 package org.qpeterp.timebucks.retrofit
 
+import org.qpeterp.timebucks.CafeTableResponse
 import org.qpeterp.timebucks.dataClass.CafeInfo
 import org.qpeterp.timebucks.dataClass.CafeReservation
 import org.qpeterp.timebucks.JoinRequest
@@ -12,6 +13,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import kotlin.collections.ArrayList
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("/cafe/show")
@@ -35,4 +37,9 @@ interface ApiService {
     @GET("/user/show")
     fun getUserData(
     ): Call<UserInfo>
+
+    @GET("/desk/show")
+    fun showCafeDesk(
+        @Query("cafe-idx") cafeIdx: Int,
+    ): Call<CafeTableResponse>
 }
