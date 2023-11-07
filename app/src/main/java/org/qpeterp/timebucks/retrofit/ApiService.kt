@@ -12,6 +12,7 @@ import org.qpeterp.timebucks.dataClass.UserInfo
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import kotlin.collections.ArrayList
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -51,6 +52,7 @@ interface ApiService {
 
     @POST("/order/create")
     fun postOrder(
-        @Query("menu-idx") menuIdx: Int
+        @Query("menu-idx") menuIdx: Int,
+        @Header("Authorization") token: String
     ): Call<String>
 }

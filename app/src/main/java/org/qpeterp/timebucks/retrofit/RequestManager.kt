@@ -1,6 +1,8 @@
 package org.qpeterp.timebucks.retrofit
 
 import android.util.Log
+import android.widget.Toast
+import org.qpeterp.timebucks.cafeInfoViewer.OrderCafeActivity
 import org.qpeterp.timebucks.dataClass.MenuData
 import org.qpeterp.timebucks.dataClass.CafeInfo
 import org.qpeterp.timebucks.dataClass.CafeReservation
@@ -136,9 +138,13 @@ class RequestManager {
         })
     }
 
-    fun postOrder(menuIdx: Int, callback: (String) -> Unit) {
-        val call = apiService.postOrder(menuIdx)
-        Log.d("requManager getReservationUser", "successful!")
+    fun postOrder(menuIdx: Int, accessToken: String, callback: (String) -> Unit) {
+        Log.d("requManager getReservationUser", "accessToken: $accessToken")
+        if (accessToken == "토큰 없음") {
+            return
+        }
+        val call = apiService.postOrder(menuIdx, "Bearer $accessToken")
+        Log.d("requManager getReservationUser", "accessToken: $accessToken")
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {

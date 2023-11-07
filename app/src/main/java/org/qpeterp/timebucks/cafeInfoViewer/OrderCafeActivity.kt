@@ -92,10 +92,10 @@ class OrderCafeActivity : AppCompatActivity() {
                     "메뉴를 선택 해 주세요.",
                     Toast.LENGTH_SHORT
                 ).show()
-                if (menuSum.isNullOrBlank())
+                if (menuSum.isNullOrBlank() || menuSum.toString() == "0")
                     return@setOnClickListener Toast.makeText(
                         this,
-                        "갯수를 선택해 주세요.",
+                        "1 이상의 갯수를 입력해주세요.",
                         Toast.LENGTH_SHORT
                     ).show()
 
@@ -111,7 +111,9 @@ class OrderCafeActivity : AppCompatActivity() {
                                 Log.d("orderCafeActivity", "Order Confirm clicked menuIdx: $menuIdx")
                                 if (menuIdx != null) {
                                     for (i in 0 until menuSum.toString().toInt()) {
-                                        requestManager.postOrder(menuIdx.toInt()) {
+                                        requestManager.postOrder(menuIdx.toInt(),
+                                            getSharedPreferences("token", MODE_PRIVATE)
+                                                .getString("accessToken", "토큰 없음").toString()) {
                                             Log.d("orderCafeActivity", "postOrderSring: $it")
                                         }
                                     }
