@@ -29,13 +29,14 @@ class FragmentCafe : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.adapter = adapter
 
-            requestManager.getReservation { apiResponse ->
-                Log.d("asdfasdf", "$apiResponse")
+            requestManager.getReservation { data ->
+                Log.d("asdfasdf", "$data")
 
-                val data = apiResponse[0]
-                val dataSet = arrayOf(data.rezIdx,
+                val dataSet = arrayOf(
+                    data.rezIdx,
                     data.deskName, data.startTime, data.finishTime,
-                    data.userMail, data.deskIdx, data.used)
+                    data.userMail, data.deskIdx, data.used
+                )
 
                 Log.d("asdfasdf", "$dataSet")
 

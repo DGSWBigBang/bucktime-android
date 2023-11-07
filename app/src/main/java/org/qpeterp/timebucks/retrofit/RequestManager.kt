@@ -47,12 +47,12 @@ class RequestManager {
         })
     }
 
-    fun getReservation(callback: (ArrayList<CafeReservation>) -> Unit) {
+    fun getReservation(callback: (CafeReservation) -> Unit) {
         val call = apiService.getReservation()
         Log.d("requManager getReservation", "successful!")
 
-        call.enqueue(object : Callback<ArrayList<CafeReservation>> {
-            override fun onResponse(call: Call<ArrayList<CafeReservation>>, response: Response<ArrayList<CafeReservation>>) {
+        call.enqueue(object : Callback<CafeReservation> {
+            override fun onResponse(call: Call<CafeReservation>, response: Response<CafeReservation>) {
                 Log.d("response is Successful_1", "successful!")
                 val apiResponse = response.body() ?: return
                 Log.d("response is Successful_2", "successful!")
@@ -61,7 +61,7 @@ class RequestManager {
                 Log.d("callback success", "successful!")
 
             }
-            override fun onFailure(call: Call<ArrayList<CafeReservation>>, t: Throwable) {
+            override fun onFailure(call: Call<CafeReservation>, t: Throwable) {
                 // 통신 실패 처리
                 Log.d("errorrrrr", "${t}, $call")
             }
@@ -122,10 +122,10 @@ class RequestManager {
 
         call.enqueue(object : Callback<MenuData> {
             override fun onResponse(call: Call<MenuData>, response: Response<MenuData>) {
-                Log.d("apiResponse의 값이 null 임;;", "ㄹㅇㅋㅋ")
+                Log.d("requestManager", "apiResponse의 값이 null 임;;")
                 val apiResponse = response.body() ?: return
 
-                Log.d("callback successUser", "$apiResponse")
+                Log.d("requestManger", "Success: $apiResponse")
                 callback(apiResponse)
 
             }
@@ -134,6 +134,25 @@ class RequestManager {
                 Log.d("errorrrrr", "${t}, $call")
             }
         })
+    }
 
+    fun postOrder(menuIdx: Int, callback: (String) -> Unit) {
+        val call = apiService.postOrder(menuIdx)
+        Log.d("requManager getReservationUser", "successful!")
+
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.d("requestManager", "apiResponse의 값이 null 임;;")
+                val apiResponse = response.body() ?: return
+
+                Log.d("requestManger", "Success: $apiResponse")
+                callback(apiResponse)
+
+            }
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("errorrrrr", "${t}, $call")
+            }
+        })
     }
 }

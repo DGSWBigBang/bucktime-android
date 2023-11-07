@@ -9,5 +9,6 @@
     <string name="timebucks">timebucks</string>
     <string name="some_id">some_id</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="selectMenu">메뉴를 클릭하세요.</string>
 
 </resources>
