@@ -3,6 +3,7 @@ package org.qpeterp.timebucks.mainFragments
 import android.R
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,9 +23,13 @@ class FragmentTime: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        requestManager.getReservation {
+        binding.showButton.setOnClickListener {
+            requestManager.getReservation {
+                binding.idDeskName.text = it.deskName
+                binding.idStartTime.text = it.startTime
+                binding.idFinishTime.text = it.finishTime
+            }
         }
-
         return binding.root
     }
 }
