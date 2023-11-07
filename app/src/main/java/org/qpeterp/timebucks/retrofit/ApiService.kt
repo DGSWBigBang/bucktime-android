@@ -40,12 +40,14 @@ interface ApiService {
 
     @GET("/user/show")
     fun getUserData(
+        @Header("Authorization") token: String
     ): Call<UserInfo>
 
     @GET("/desk/show")
     fun showCafeDesk(
         @Query("cafe-idx") cafeIdx: Int,
     ): Call<CafeTableResponse>
+
     @GET("/menu/show")
     fun getMenuListData(
         @Query("cafe-idx") cafeIdx: Int

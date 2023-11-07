@@ -2,15 +2,18 @@ package org.qpeterp.timebucks.cafeInfoViewer
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.qpeterp.timebucks.CustomAdapter
+import org.qpeterp.timebucks.adapter.CustomAdapter
 import org.qpeterp.timebucks.databinding.ActivityOrderCafeBinding
+import org.qpeterp.timebucks.mainFragments.FragmentTime
 import org.qpeterp.timebucks.retrofit.RequestManager
+import java.text.DecimalFormat
 
 
 class OrderCafeActivity : AppCompatActivity() {
@@ -18,7 +21,9 @@ class OrderCafeActivity : AppCompatActivity() {
     private val requestManager = RequestManager()
     private var menuOrNull: String? = null
     private var menuIdx: String? = null
+    private var menuPrizes: Int? = null
     private val testDataSet = ArrayList<ArrayList<String>>()
+    private val formatter: DecimalFormat = DecimalFormat("###,###")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +35,6 @@ class OrderCafeActivity : AppCompatActivity() {
         click()
 
         try {
-
-
             if (tOrF != -1) { // 수정: tOrF가 -1이 아닌지 확인
                 Log.d("orderCafeActivity", "tOrF != -1")
                 Log.d("orderCafeActivity", "${tOrF + 1}")
@@ -100,9 +103,9 @@ class OrderCafeActivity : AppCompatActivity() {
                     ).show()
 
                 for (i in 0 until  testDataSet.size) {
-                    Log.d("OrderActivity", "testDataSet.size: ${testDataSet.size} $testDataSet")
+                    Log.d("OrderActivity", "testDataSet.size: ${testDataSet.size} $testDataSet \n\n ${formatter.format(menuPrizes!!*menuSum.toString().toInt())}원")
                     if (testDataSet[i].contains(menuText.toString())) {
-                        val msgBuilder = AlertDialog.Builder(this)
+                        val msgBuilder = AlertDialog.Builder(this).setCancelable(false)
                             .setTitle("주문하시겠습니까?")
                             .setMessage("$menuText $menuSum 개")
                             .setPositiveButton(
@@ -135,10 +138,11 @@ class OrderCafeActivity : AppCompatActivity() {
         }
     }
 
-    fun setBuyMenu(menuName: String, menuIndex: String) {
+    fun setBuyMenu(menuName: String, menuIndex: String, menuPrize: Int) {
         binding.idOrderMenu.hint = menuName
         menuOrNull = menuName
         menuIdx = menuIndex
+        menuPrizes = menuPrize
         Log.d("OrderCafeActivity", "setBuyMenu: $menuIdx")
         Log.d("OrderCafeActivity", "setBuyMenu menuOrNull: $menuOrNull")
 

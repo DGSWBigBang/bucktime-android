@@ -38,7 +38,7 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 
 class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
     private val binding by lazy { FragmentMapBinding.inflate(layoutInflater) }
-    private lateinit var mGoogleMap: GoogleMap
+    private lateinit var googleMap: GoogleMap
     private var isFirstLocationUpdate = true
     private var marker: Marker? = null
     private val requestManager = RequestManager()
@@ -79,11 +79,11 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
 
     //지도 객체를 사용할 수 있을 때 자동으로 호출되는 함수
     override fun onMapReady(map: GoogleMap) {
-        mGoogleMap = map
+        this.googleMap = map
     }
 
     private fun setMarkers(latitude: Double, longitude: Double) {
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.marker_self_postion)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.marker_self_position)
 
         val selfMarkerOptions = MarkerOptions()
             .position(LatLng(latitude, longitude))
@@ -97,9 +97,9 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
             .zoom(12f) // 줌 레벨 설정
             .build()
 
-            marker = mGoogleMap.addMarker(selfMarkerOptions)
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-            mGoogleMap.addMarker(selfMarkerOptions)?.showInfoWindow()
+            marker = googleMap.addMarker(selfMarkerOptions)
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            googleMap.addMarker(selfMarkerOptions)?.showInfoWindow()
             Log.d("setMArkers 실행", "제발좀")
     }
 
@@ -117,8 +117,8 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
             .title("$title")
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
 
-        mGoogleMap.addMarker(markerOptions)?.showInfoWindow()
-        mGoogleMap.setOnMarkerClickListener(this)
+        googleMap.addMarker(markerOptions)?.showInfoWindow()
+        googleMap.setOnMarkerClickListener(this)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
@@ -204,11 +204,12 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
                         toStartMapCafe()
                     }
 
+
                     // 딜레이를 주기 위해 Handler를 사용
                     Handler().postDelayed({
                         removeMarker()
                         setMarkers(latitude, longitude)
-                    }, 6000000) // 대충 오래뒤에 호출
+                    }, 600000) // 대충 오래뒤에 호출
 
 
                     // 위치 정보를 가져온 후 필요한 작업을 수행

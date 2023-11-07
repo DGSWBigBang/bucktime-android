@@ -73,9 +73,12 @@ class RequestManager {
 
     }
 
-    fun getUserData(callback: (UserInfo) -> Unit) {
-        val call = apiService.getUserData()
-        Log.d("requManager getReservationUser", "successful!")
+    fun getUserData(token: String, callback: (UserInfo) -> Unit) {
+        Log.d("requManager getReservationUser getUserData_1", "$token")
+
+        val call = apiService.getUserData("Bearer $token")
+        Log.d("requManager getReservationUser getUserData_2", "$token")
+
 
         call.enqueue(object : Callback<UserInfo> {
             override fun onResponse(call: Call<UserInfo>, response: Response<UserInfo>) {
@@ -88,7 +91,7 @@ class RequestManager {
             }
             override fun onFailure(call: Call<UserInfo>, t: Throwable) {
                 // 통신 실패 처리
-                Log.d("errorrrrr", "${t}, $call")
+                Log.d("errorrrrr getUserData", "${t.message}", t)
             }
         })
 
@@ -139,19 +142,19 @@ class RequestManager {
     }
 
     fun postOrder(menuIdx: Int, accessToken: String, callback: (String) -> Unit) {
-        Log.d("requManager getReservationUser", "accessToken: $accessToken")
+        Log.d("requManager postOrder", "accessToken: $accessToken")
         if (accessToken == "토큰 없음") {
             return
         }
         val call = apiService.postOrder(menuIdx, "Bearer $accessToken")
-        Log.d("requManager getReservationUser", "accessToken: $accessToken")
+        Log.d("requManager postOrder", "accessToken: $accessToken")
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 Log.d("requestManager", "apiResponse의 값이 null 임;;")
                 val apiResponse = response.body() ?: return
 
-                Log.d("requestManger", "Success: $apiResponse")
+                Log.d("requestManger postOrder", "Success: $apiResponse")
                 callback(apiResponse)
 
             }

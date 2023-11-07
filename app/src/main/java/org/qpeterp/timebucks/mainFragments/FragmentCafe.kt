@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.qpeterp.timebucks.CustomAdapter
+import org.qpeterp.timebucks.adapter.CustomAdapter
 import org.qpeterp.timebucks.databinding.FragmentCafeBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
 
