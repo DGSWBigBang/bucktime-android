@@ -1,5 +1,6 @@
 package org.qpeterp.timebucks
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -7,52 +8,47 @@ import androidx.recyclerview.widget.RecyclerView
 import org.qpeterp.timebucks.dataClass.CafeReservation
 import org.qpeterp.timebucks.databinding.ItemCafeFragmentBinding
 
-class CustomAdapter(private var dataSet: Array<String>) :
+class CustomAdapter(private var dataSet: ArrayList<ArrayList<String>>) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
 
     inner class ViewHolder(private val binding: ItemCafeFragmentBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val numTextView: TextView = binding.idCafeNum
-//        private val nameTextView: TextView = binding.idCafeName
-        private val timeStartTextView: TextView = binding.idCafeTimeStart
-        private val timeEndTextView: TextView = binding.idCafeTimeEnd
-        private val deskIdxTextView: TextView = binding.idCafeDeskIdx
-        private val usedTextView: TextView = binding.idCafeUsed
+        private val menuNames: TextView = binding.menuName
+        private val menuInfos: TextView = binding.menuInfo
+        private val menuPrizes: TextView = binding.menuPrize
 
         fun bind(
-            rezIdx: String,
-            deskName: String,
-            startTime: String,
-            finishTime: String,
-            deskIdx: String,
-            used: String
+            menuName: String,
+            menuInfo: String,
+            menuPrize: String
         ) {
-            numTextView.text = rezIdx
-//            nameTextView.text = deskName
-            timeStartTextView.text = startTime
-            timeEndTextView.text = finishTime
-            deskIdxTextView.text = deskIdx
-            usedTextView.text = used
+            Log.d("onBindViewHolder", "dataSet: ${dataSet}")
+
+            menuNames.text = menuName
+            menuInfos.text = menuInfo
+            menuPrizes.text = menuPrize
         }
     }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val rezIdx = dataSet[0]
-        val deskName = dataSet[1]
-        val startTime = dataSet[2]
-        val finishTime = dataSet[3]
-        val deskIdx = dataSet[5]
-        val used = dataSet[6]
+        Log.d("onBindViewHolder", "dataSet: ${dataSet}")
+        Log.d("onBindViewHolder", "position: ${position}")
+        val menuName = dataSet[position][0]
+        val menuInfo = dataSet[position][1]
+        val menuPrize = dataSet[position][2]
 
-        holder.bind(rezIdx, deskName, startTime, finishTime, deskIdx, used)
+        holder.bind(menuName, menuInfo, menuPrize)
     }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        Log.d("onBindViewHolder", "dataSet: ${dataSet}")
         val binding = ItemCafeFragmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+
         return ViewHolder(binding)
     }
 

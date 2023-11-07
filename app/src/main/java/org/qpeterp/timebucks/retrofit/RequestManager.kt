@@ -1,8 +1,10 @@
 package org.qpeterp.timebucks.retrofit
 
 import android.util.Log
+import org.qpeterp.timebucks.dataClass.MenuData
 import org.qpeterp.timebucks.dataClass.CafeInfo
 import org.qpeterp.timebucks.dataClass.CafeReservation
+import org.qpeterp.timebucks.dataClass.MenuListDataItem
 import org.qpeterp.timebucks.dataClass.UserInfo
 import retrofit2.Call
 import retrofit2.Callback
@@ -89,6 +91,49 @@ class RequestManager {
         })
 
         Log.d("하하 안되노", "시시히히!")
+
+    }
+
+    fun getMenuListData(cafeIdx: Int, callback: (ArrayList<MenuListDataItem>) -> Unit) {
+
+        val call = apiService.getMenuListData(cafeIdx)
+        Log.d("requManager getMenuListData", "successful!")
+
+        call.enqueue(object : Callback<ArrayList<MenuListDataItem>> {
+            override fun onResponse(call: Call<ArrayList<MenuListDataItem>>, response: Response<ArrayList<MenuListDataItem>>) {
+                Log.d("apiResponse의 값이 null 임;; getMenuListData", "ㄹㅇㅋㅋ")
+                val apiResponse = response.body() ?: return
+
+                Log.d("callback getMenuListData", "$apiResponse")
+                callback(apiResponse)
+
+            }
+            override fun onFailure(call: Call<ArrayList<MenuListDataItem>>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("getMenuListData errorrrrr", "${t}, $call")
+            }
+        })
+
+    }
+
+    fun getMenuData(menuIdx: Int, callback: (MenuData) -> Unit) {
+        val call = apiService.getMenuData(menuIdx)
+        Log.d("requManager getReservationUser", "successful!")
+
+        call.enqueue(object : Callback<MenuData> {
+            override fun onResponse(call: Call<MenuData>, response: Response<MenuData>) {
+                Log.d("apiResponse의 값이 null 임;;", "ㄹㅇㅋㅋ")
+                val apiResponse = response.body() ?: return
+
+                Log.d("callback successUser", "$apiResponse")
+                callback(apiResponse)
+
+            }
+            override fun onFailure(call: Call<MenuData>, t: Throwable) {
+                // 통신 실패 처리
+                Log.d("errorrrrr", "${t}, $call")
+            }
+        })
 
     }
 }

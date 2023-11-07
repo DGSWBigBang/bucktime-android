@@ -15,10 +15,12 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 class PopupActivity : Activity() {
     private val binding by lazy { ItemCafeInfoBinding.inflate(layoutInflater) }
     private val requestManager = RequestManager()
-    private val fragmentMap = FragmentMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val tOrF = intent.getIntExtra("tOrF", -1)
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.root)
@@ -26,7 +28,6 @@ class PopupActivity : Activity() {
         Log.d("onCreate PopupActivity", "start")
 
         //UI 객체생성
-        val tOrF = intent.getIntExtra("tOrF", -1)
 
         requestManager.getCafeInfo {
             Log.d("정보 넣기", "들어옴")
@@ -52,15 +53,17 @@ class PopupActivity : Activity() {
 
         binding.idCafeTimeButton.setOnClickListener {
             Log.d("버튼 눌림", "start")
-            mOnClose()
+            mOnClose(tOrF)
         }
     }
 
     //확인 버튼 클릭
-    private fun mOnClose() {
+    private fun mOnClose(tOrF: Int) {
         try {
             Log.d("mOnClose start_1", "success")
             val intent = Intent(this, ResponseCafeActivity::class.java)
+            intent.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
+
             startActivity(intent)
             Log.d("mOnClose start_2", "success")
         } catch (e:Exception) {

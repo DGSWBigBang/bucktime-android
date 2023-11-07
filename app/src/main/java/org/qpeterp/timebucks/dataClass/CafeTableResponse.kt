@@ -1,3 +1,3 @@
-package org.qpeterp.timebucks
+package org.qpeterp.timebucks.dataClass
 
 class CafeTableResponse : ArrayList<CafeTableResponseItem>()

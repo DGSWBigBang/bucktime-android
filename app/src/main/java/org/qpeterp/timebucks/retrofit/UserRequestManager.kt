@@ -1,10 +1,12 @@
 package org.qpeterp.timebucks.retrofit
 
 import android.util.Log
-import org.qpeterp.timebucks.CafeTableResponse
+import android.widget.Toast
+import org.qpeterp.timebucks.dataClass.CafeTableResponse
 import org.qpeterp.timebucks.JoinRequest
 import org.qpeterp.timebucks.LoginRequest
 import org.qpeterp.timebucks.LoginResponse
+import org.qpeterp.timebucks.ReservationRequest
 import org.qpeterp.timebucks.StringResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -58,14 +60,40 @@ class UserRequestManager {
     fun cafe(cafeIdx: Int, callback: (CafeTableResponse) -> Unit) {
         val cafeCall = apiService.showCafeDesk(cafeIdx)
         cafeCall.enqueue(object : Callback<CafeTableResponse> {
-            override fun onResponse(call: Call<CafeTableResponse>, response: Response<CafeTableResponse>) {
+            override fun onResponse(
+                call: Call<CafeTableResponse>,
+                response: Response<CafeTableResponse>
+            ) {
                 val cafeResponse = response.body() ?: return
+                Log.d("cafeTable loglog", "$cafeResponse")
                 callback(cafeResponse)
 
             }
 
             override fun onFailure(call: Call<CafeTableResponse>, t: Throwable) {
+
                 Log.d("Cafe Response Error", "Cafe Response is Error", t)
+            }
+        })
+    }
+
+    fun reservation(reservationRequest: ReservationRequest, token: String, callback: (StringResponse) -> Unit) {
+        val reservationCall = apiService.reservationCreate(reservationRequest, "Bearer $token")
+        reservationCall.enqueue(object : Callback<StringResponse> {
+            override fun onResponse(
+                call: Call<StringResponse>,
+                response: Response<StringResponse>
+            ) {
+                Log.d("reservationResponse Error1", "Reservation Response is Error ${response.code()}")
+
+                val reservationResponse = response.body() ?: return
+                Log.d("reservationResponse Error2", "Reservation Response is Error")
+
+                callback(reservationResponse)
+            }
+
+            override fun onFailure(call: Call<StringResponse>, t: Throwable) {
+                Log.d("reservationResponse Error", "Reservation Response is Error", t)
             }
         })
     }
