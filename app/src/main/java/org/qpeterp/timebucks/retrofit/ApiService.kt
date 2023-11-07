@@ -1,10 +1,12 @@
 package org.qpeterp.timebucks.retrofit
 
+import org.qpeterp.timebucks.dataClass.CafeTableResponse
 import org.qpeterp.timebucks.dataClass.CafeInfo
 import org.qpeterp.timebucks.dataClass.CafeReservation
 import org.qpeterp.timebucks.JoinRequest
 import org.qpeterp.timebucks.LoginRequest
 import org.qpeterp.timebucks.LoginResponse
+import org.qpeterp.timebucks.ReservationRequest
 import org.qpeterp.timebucks.StringResponse
 import org.qpeterp.timebucks.dataClass.MenuData
 import org.qpeterp.timebucks.dataClass.MenuListDataItem
@@ -40,6 +42,10 @@ interface ApiService {
     fun getUserData(
     ): Call<UserInfo>
 
+    @GET("/desk/show")
+    fun showCafeDesk(
+        @Query("cafe-idx") cafeIdx: Int,
+    ): Call<CafeTableResponse>
     @GET("/menu/show")
     fun getMenuListData(
         @Query("cafe-idx") cafeIdx: Int
@@ -49,6 +55,17 @@ interface ApiService {
     fun getMenuData(
         @Query("menu-idx") menuIdx: Int
     ): Call<MenuData>
+
+    @POST("/rez/create")
+    fun reservationCreate(
+        @Body reservationRequest: ReservationRequest,
+        @Header("Authorization") token: String
+    ): Call<StringResponse>
+
+//    @GET("/rez/show/user")
+//    fun rezShowUser(
+//
+//    )
 
     @POST("/order/create")
     fun postOrder(

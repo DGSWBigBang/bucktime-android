@@ -3,6 +3,7 @@ package org.qpeterp.timebucks
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.qpeterp.timebucks.databinding.ActivitySignupBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
@@ -26,24 +27,20 @@ class SignupActivity : AppCompatActivity() {
             val pw = binding.textInputEditText6.text.toString()
             val intent = Intent(this, MainMainActivity::class.java)
             var loginRequest = LoginRequest(pw, email)
-            Log.d("Request Data", "$loginRequest")
-            Log.d("Response before", "yes")
             userRequestManager.login(loginRequest) {
-                Log.d("Response Result", "asdfsdfsdf")
                 if(it != null) {
                      try {
                         val sharedPreferences = getSharedPreferences("token", MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putString("accessToken", it.accessToken)
                         editor.putString("refreshToken", it.refreshToken)
+                        editor.apply()
                         startActivity(intent)
                     } catch (e:Exception) {
                         Log.d("pressed loginButton error", "$e")
                     }
-
                 }
             }
         }
     }
-
 }

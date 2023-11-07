@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.qpeterp.timebucks.cafeInfoViewer.ClickCallbackListener
 import org.qpeterp.timebucks.cafeInfoViewer.OrderCafeActivity
 import org.qpeterp.timebucks.databinding.ItemCafeFragmentBinding
 

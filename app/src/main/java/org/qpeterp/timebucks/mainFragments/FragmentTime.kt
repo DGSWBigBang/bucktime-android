@@ -22,7 +22,8 @@ class FragmentTime: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-
+        requestManager.getReservation {
+        }
 
         return binding.root
     }

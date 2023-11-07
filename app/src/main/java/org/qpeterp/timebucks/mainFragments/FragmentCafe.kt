@@ -26,7 +26,6 @@ class FragmentCafe : Fragment() {
         // Inflate the layout for this fragment using the binding object
 
         try {
-            recyclerView = binding.recyclerView
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.adapter = adapter
 
