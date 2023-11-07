@@ -23,7 +23,7 @@ interface ApiService {
 
     @GET("/rez/show")
     fun getReservation(
-    ): Call<ArrayList<CafeReservation>>
+    ): Call<CafeReservation>
 
     @POST("/user/login")
     fun login(
@@ -48,4 +48,9 @@ interface ApiService {
     fun getMenuData(
         @Query("menu-idx") menuIdx: Int
     ): Call<MenuData>
+
+    @POST("/order/create")
+    fun postOrder(
+        @Query("menu-idx") menuIdx: Int
+    ): Call<String>
 }
