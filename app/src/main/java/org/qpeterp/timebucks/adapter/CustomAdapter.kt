@@ -1,4 +1,4 @@
-package org.qpeterp.timebucks
+package org.qpeterp.timebucks.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.qpeterp.timebucks.cafeInfoViewer.OrderCafeActivity
 import org.qpeterp.timebucks.databinding.ItemCafeFragmentBinding
+import java.text.DecimalFormat
 
 
 class CustomAdapter(private var dataSet: ArrayList<ArrayList<String>>, private val orderCafeActivity: OrderCafeActivity) :
@@ -28,19 +29,19 @@ class CustomAdapter(private var dataSet: ArrayList<ArrayList<String>>, private v
         ) {
             Log.d("onBindViewHolder", "dataSet: ${dataSet}")
 
+
             menuNames.text = menuName
             menuInfos.text = menuInfo
             menuPrizes.text = "$menuPrize 원"
 
             itemView.setOnClickListener {
                 try {
-                    orderCafeActivity.setBuyMenu(menuName, menuIdx)
+                    orderCafeActivity.setBuyMenu(menuName, menuIdx, menuPrize.toInt())
                 } catch (e:Exception) {
                     Log.d("setonClickedItemViewBug", "", e)
                 }
             }
         }}
-
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

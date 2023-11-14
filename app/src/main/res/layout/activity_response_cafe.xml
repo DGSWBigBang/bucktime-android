@@ -20,19 +20,76 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tableNumber"/>
+
+    <TextView
+        android:id="@+id/tableNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="테이블 번호"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/titleResponse"
+        app:layout_constraintBottom_toTopOf="@id/tablePageRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tablePageRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tableNumber"
+        app:layout_constraintBottom_toTopOf="@id/checkedTableSet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/checkedTableSet"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tablePageRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/confirmText"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="사용할 테이블"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/checkedToUseTable"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:hint="사용할 테이블을 선택해주세요."
+            android:textSize="15sp"
+            android:textColorHint="#905521"
+            android:textColor="@color/black"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/justInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buttonsWrap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleResponse"
-        app:layout_constraintVertical_bias="0.217">
+        app:layout_constraintTop_toBottomOf="@id/checkedTableSet"
+        app:layout_constraintVertical_bias="0.29">
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +108,7 @@
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/pretendard_medium"
             android:hint="3"
-            android:inputType="time"
+            android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,17 +117,16 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/tableInput"
+        android:id="@+id/buttonsWrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/responseButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/justInput"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/justInput">
-
-        <TextView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:weightSum="2">
+        <Button
+            android:id="@+id/confirmButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semi_bold"
@@ -79,43 +135,8 @@
             android:layout_marginLeft="18dp"
             android:textSize="20sp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/idResponseTable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="12"
-            android:fontFamily="@font/pretendard_medium"
-            android:inputType="number"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="501dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/confirmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_semi_bold"
-        android:text="확정하기"
-        app:layout_constraintBottom_toTopOf="@+id/tableInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/justInput"
-        app:layout_constraintVertical_bias="0.469" />
-
-    <Button
-        android:id="@+id/responseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_semi_bold"
-        android:text="결제하기"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableInput" />
 
     <TextView
         android:id="@+id/tableMaxNum"
@@ -123,7 +144,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tableInput"
+        app:layout_constraintTop_toBottomOf="@id/tablePageRecyclerView"
         app:layout_constraintHorizontal_bias="0.1"
         android:text=""
         android:textColor="#dd0000"/>
@@ -134,8 +155,9 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+        app:layout_constraintBottom_toTopOf="@+id/justInput"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

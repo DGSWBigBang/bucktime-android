@@ -5,15 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import org.qpeterp.timebucks.CustomAdapter
-import org.qpeterp.timebucks.cafeInfoViewer.OrderCafeActivity
 import org.qpeterp.timebucks.databinding.FragmentCafeBinding
-import org.qpeterp.timebucks.retrofit.RequestManager
 import org.qpeterp.timebucks.retrofit.UserRequestManager
 
 class FragmentCafe : Fragment() {

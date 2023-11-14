@@ -13,11 +13,9 @@ import org.qpeterp.timebucks.dataClass.MenuData
 import org.qpeterp.timebucks.dataClass.MenuListDataItem
 import org.qpeterp.timebucks.dataClass.UserInfo
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import kotlin.collections.ArrayList
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -43,12 +41,14 @@ interface ApiService {
 
     @GET("/user/show")
     fun getUserData(
+        @Header("Authorization") token: String
     ): Call<UserInfo>
 
     @GET("/desk/show")
     fun showCafeDesk(
         @Query("cafe-idx") cafeIdx: Int,
     ): Call<CafeTableResponse>
+
     @GET("/menu/show")
     fun getMenuListData(
         @Query("cafe-idx") cafeIdx: Int
@@ -72,7 +72,8 @@ interface ApiService {
 
     @POST("/order/create")
     fun postOrder(
-        @Query("menu-idx") menuIdx: Int
+        @Query("menu-idx") menuIdx: Int,
+        @Header("Authorization") token: String
     ): Call<String>
 
     @GET("/order/show/user")

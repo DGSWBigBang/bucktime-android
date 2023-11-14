@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import org.qpeterp.timebucks.databinding.FragmentMypageBinding
 import org.qpeterp.timebucks.retrofit.RequestManager
@@ -21,7 +22,7 @@ class FragmentMyPage: Fragment() {
 
         Log.d("setUserName", "first")
 
-        requestManager.getUserData {
+        requestManager.getUserData(requireContext().getSharedPreferences("token", AppCompatActivity.MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) {
             binding.idUserName.text = it.userName
             Log.d("setUserName", "$it")
         }
