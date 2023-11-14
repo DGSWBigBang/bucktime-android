@@ -238,7 +238,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
                 return
             }
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
     }
 
     override fun onStart() {

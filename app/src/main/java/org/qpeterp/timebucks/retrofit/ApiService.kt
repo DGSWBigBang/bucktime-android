@@ -6,6 +6,7 @@ import org.qpeterp.timebucks.dataClass.CafeReservation
 import org.qpeterp.timebucks.JoinRequest
 import org.qpeterp.timebucks.LoginRequest
 import org.qpeterp.timebucks.LoginResponse
+import org.qpeterp.timebucks.OrderShowUserResponseItem
 import org.qpeterp.timebucks.ReservationRequest
 import org.qpeterp.timebucks.StringResponse
 import org.qpeterp.timebucks.dataClass.MenuData
@@ -74,4 +75,9 @@ interface ApiService {
         @Query("menu-idx") menuIdx: Int,
         @Header("Authorization") token: String
     ): Call<String>
+
+    @GET("/order/show/user")
+    fun orderShowUser(
+        @Header("Authorization") token: String
+    ): Call<ArrayList<OrderShowUserResponseItem>>
 }

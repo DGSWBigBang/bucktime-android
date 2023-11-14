@@ -33,7 +33,6 @@ class ResponseCafeActivity : AppCompatActivity() {
 
         tOrF = intent.getIntExtra("tOrF", -1)
 
-        setOnClickConfirmButton()
         clickResopnseButton()
 
        setRecyclerVeiw()
@@ -73,22 +72,6 @@ class ResponseCafeActivity : AppCompatActivity() {
 //        }
     }
 
-    private fun setOnClickConfirmButton() {
-        binding.confirmButton.setOnClickListener {
-            useTableTimeString = binding.useTableTime.text.toString().trim()
-            if (binding.checkedToUseTable.hint.equals("사용할 테이블을 선택해주세요.")){
-                Toast.makeText(this, "테이블을 선택해 주세요.", Toast.LENGTH_SHORT).show()
-            }
-
-            else if (useTableTimeString.isNullOrBlank() || useTableTimeString!!.toInt() == 0) {
-                Toast.makeText(this, "테이블 이용 시간이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                this.confirm = true
-                Toast.makeText(this, "확정되었습니다.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 
     private fun clickResopnseButton() {
         binding.responseButton.setOnClickListener {
@@ -98,24 +81,52 @@ class ResponseCafeActivity : AppCompatActivity() {
             Log.d("pressedResponseButton", "menuIdx: $tableIdx")
 
             try {
-                if (confirm) {
-                    for (i in 0 until  tableList.size) {
+                useTableTimeString = binding.useTableTime.text.toString().trim()
+                if (binding.checkedToUseTable.hint.equals("사용할 테이블을 선택해주세요.")) {
+                    Toast.makeText(this, "테이블을 선택해 주세요.", Toast.LENGTH_SHORT).show()
+                } else if (useTableTimeString.isNullOrBlank() || useTableTimeString!!.toInt() == 0) {
+                    Toast.makeText(this, "테이블 이용 시간이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    for (i in 0 until tableList.size) {
                         if (tableList[i].contains(tableText.toString())) {
                             val msgBuilder = AlertDialog.Builder(this).setCancelable(false)
                                 .setTitle("결제하시겠습니까?")
-                                .setMessage("$tableText ${binding.useTableTime.text}시간\n\n ${formatter.format(tablePrizes!! * binding.useTableTime.text.toString().toInt())}원")
+                                .setMessage(
+                                    "$tableText ${binding.useTableTime.text}시간\n\n ${
+                                        formatter.format(
+                                            tablePrizes!! * binding.useTableTime.text.toString()
+                                                .toInt()
+                                        )
+                                    }원"
+                                )
                                 .setPositiveButton(
                                     "확정"
                                 ) { _, _ ->
-                                    Log.d("orderCafeActivity", "Order Confirm clicked menuIdx: $tableIdx")
+                                    Log.d(
+                                        "orderCafeActivity",
+                                        "Order Confirm clicked menuIdx: $tableIdx"
+                                    )
                                     if (tableIdx != null) {
-                                        val reservationRequest = ReservationRequest(tableIdx.toInt(), useTableTimeString!!.toInt())
+                                        val reservationRequest = ReservationRequest(
+                                            tableIdx.toInt(),
+                                            useTableTimeString!!.toInt()
+                                        )
                                         Log.d("짜증나는 에러 1", "화가난다")
-                                        userRequestManager.reservation(reservationRequest, getSharedPreferences("token", MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) {
+                                        userRequestManager.reservation(
+                                            reservationRequest,
+                                            getSharedPreferences(
+                                                "token",
+                                                MODE_PRIVATE
+                                            ).getString("accessToken", "토큰 없음").toString()
+                                        ) {
                                             Log.d("짜증나는 에러 2", "화가난다2")
                                             if (it.message == "예약 완료") {
-                                                val nextActivity = Intent(this, OrderCafeActivity::class.java)
-                                                nextActivity.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
+                                                val nextActivity =
+                                                    Intent(this, OrderCafeActivity::class.java)
+                                                nextActivity.putExtra(
+                                                    "tOrF",
+                                                    tOrF
+                                                ) // tOrF 변수를 인텐트에 추가
                                                 startActivity(nextActivity)
                                                 finish()
                                             }
@@ -134,9 +145,7 @@ class ResponseCafeActivity : AppCompatActivity() {
                         }
                     }
                 }
-                else {
-                    Toast.makeText(this, "먼저 확정해 주세요.", Toast.LENGTH_SHORT).show()
-                }
+
             } catch (e: Exception) {
                 Log.d("pressedResponseButton", "",e)
             }

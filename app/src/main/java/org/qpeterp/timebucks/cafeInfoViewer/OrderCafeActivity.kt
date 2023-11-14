@@ -144,7 +144,6 @@ class OrderCafeActivity : AppCompatActivity() {
         menuPrizes = menuPrize
         Log.d("OrderCafeActivity", "setBuyMenu: $menuIdx")
         Log.d("OrderCafeActivity", "setBuyMenu menuOrNull: $menuOrNull")
-
     }
 
 }

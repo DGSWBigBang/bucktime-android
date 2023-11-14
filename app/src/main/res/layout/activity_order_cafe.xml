@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="메뉴"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/idOrderMenu"
@@ -35,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="수량"
+            android:fontFamily="@font/pretendard_semi_bold"
             android:textSize="20sp"/>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -42,6 +44,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:hint="2"
+            android:fontFamily="@font/pretendard_medium"
             android:gravity="center"
             android:inputType="number"/>
 
@@ -54,6 +57,9 @@
         android:layout_gravity="center"
         android:layout_weight="0.6"
         android:text="주문하기"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:backgroundTint="#905521"
+
         android:textSize="20sp"/>
 
 </LinearLayout>

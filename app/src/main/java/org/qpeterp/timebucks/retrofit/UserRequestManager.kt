@@ -6,6 +6,7 @@ import org.qpeterp.timebucks.dataClass.CafeTableResponse
 import org.qpeterp.timebucks.JoinRequest
 import org.qpeterp.timebucks.LoginRequest
 import org.qpeterp.timebucks.LoginResponse
+import org.qpeterp.timebucks.OrderShowUserResponseItem
 import org.qpeterp.timebucks.ReservationRequest
 import org.qpeterp.timebucks.StringResponse
 import retrofit2.Call
@@ -94,6 +95,28 @@ class UserRequestManager {
 
             override fun onFailure(call: Call<StringResponse>, t: Throwable) {
                 Log.d("reservationResponse Error", "Reservation Response is Error", t)
+            }
+        })
+    }
+
+    fun orderShow(token: String, callback: (ArrayList<OrderShowUserResponseItem>) -> Unit) {
+        val orderShowCall = apiService.orderShowUser("Bearer $token")
+        orderShowCall.enqueue(object : Callback<ArrayList<OrderShowUserResponseItem>> {
+            override fun onResponse(
+                call: Call<ArrayList<OrderShowUserResponseItem>>,
+                response: Response<ArrayList<OrderShowUserResponseItem>>
+            ) {
+                Log.d("cafeTable loglog", "$token")
+                val OrderShowUserResponseItem = response.body() ?: return
+                Log.d("cafeTable loglog", "$OrderShowUserResponseItem")
+                Log.d("cafeTable loglog", "$token")
+
+                callback(OrderShowUserResponseItem)
+            }
+
+            override fun onFailure(call: Call<ArrayList<OrderShowUserResponseItem>>, t: Throwable) {
+
+                Log.d("ErrorFuck", "tlqkf", t)
             }
         })
     }

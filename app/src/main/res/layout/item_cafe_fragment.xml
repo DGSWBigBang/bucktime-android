@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="300dp"
-    android:background="@drawable/cafe_textview_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
+
     <TextView
         android:id="@+id/menuName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="맛난 커피"
+        android:fontFamily="@font/pretendard_semi_bold"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -18,10 +20,10 @@
         android:id="@+id/menuInfo"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:text="asdfasdlkfjalskdfjklasdjflkasdjfkldsajlfkjasdkldf"
-        android:textColor="@color/black"
+        android:text="맛있는 커피 1개에 10000원입니다!"
+        android:textColor="#C3C3C3"
+        android:fontFamily="@font/pretendard_medium"
         android:textSize="25sp"
-        android:textStyle="bold"
         android:padding="10dp"/>
 
     <TextView
@@ -31,6 +33,6 @@
         android:text="10,000₩"
         android:textColor="@color/black"
         android:textSize="25sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/pretendard_semi_bold"
         android:padding="10dp"/>
 </LinearLayout>
