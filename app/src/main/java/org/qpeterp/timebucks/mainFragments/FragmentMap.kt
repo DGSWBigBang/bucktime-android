@@ -41,7 +41,6 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
     private lateinit var googleMap: GoogleMap
     private var isFirstLocationUpdate = true
     private var marker: Marker? = null
-    private val requestManager = RequestManager()
     private var tOrF = -1
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -104,7 +103,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
     }
 
     private fun toStartMapCafe() {
-        requestManager.getCafeInfo {
+        RequestManager.getCafeInfo {
             for (i in 0 until it.size) {
                 setMarkersCafe(it[i].cafeName, it[i].latitude.toDouble(), it[i].longitude.toDouble())
             }
@@ -199,9 +198,12 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
                     val latitude = location.latitude
                     Log.d("LocationListener", "위도경도: $longitude $latitude")
                     if (isFirstLocationUpdate) {
+                        Log.d("asdfasdfasdf","asdfasdfasdf")
                         isFirstLocationUpdate = false
                         setMarkers(latitude, longitude)
                         toStartMapCafe()
+                        Log.d("asdfasdfasdf","asdfasdfasdf")
+
                     }
 
 
@@ -235,6 +237,7 @@ class FragmentMap : Fragment(),OnMapReadyCallback, OnMarkerClickListener {
             ) {
                 return
             }
+
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, locationListener)
     }
 

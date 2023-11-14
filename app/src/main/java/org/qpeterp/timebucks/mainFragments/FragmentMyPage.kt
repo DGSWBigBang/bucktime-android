@@ -12,7 +12,6 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 
 class FragmentMyPage: Fragment() {
     private val binding by lazy { FragmentMypageBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,7 +21,7 @@ class FragmentMyPage: Fragment() {
 
         Log.d("setUserName", "first")
 
-        requestManager.getUserData(requireContext().getSharedPreferences("token", AppCompatActivity.MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) {
+        RequestManager.getUserData(requireContext().getSharedPreferences("token", AppCompatActivity.MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) {
             binding.idUserName.text = it.userName
             Log.d("setUserName", "$it")
         }

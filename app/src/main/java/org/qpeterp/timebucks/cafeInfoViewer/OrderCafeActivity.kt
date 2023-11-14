@@ -18,7 +18,6 @@ import java.text.DecimalFormat
 
 class OrderCafeActivity : AppCompatActivity() {
     val binding by lazy { ActivityOrderCafeBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
     private var menuOrNull: String? = null
     private var menuIdx: String? = null
     private var menuPrizes: Int? = null
@@ -39,7 +38,7 @@ class OrderCafeActivity : AppCompatActivity() {
                 Log.d("orderCafeActivity", "tOrF != -1")
                 Log.d("orderCafeActivity", "${tOrF + 1}")
 
-                requestManager.getMenuListData(tOrF + 1) { menuList ->
+                RequestManager.getMenuListData(tOrF + 1) { menuList ->
                     val recyclerView: RecyclerView = binding.recyclerViewTime
                     val linearLayoutManager = LinearLayoutManager(this as Context)
                     recyclerView.layoutManager = linearLayoutManager // LayoutManager 설정
@@ -50,7 +49,7 @@ class OrderCafeActivity : AppCompatActivity() {
                     for (i in 1..menuList.size) {
                         val innerList = ArrayList<String>()
 
-                        requestManager.getMenuData(i) { menu ->
+                        RequestManager.getMenuData(i) { menu ->
 
                             innerList.add(menu.menuName)
                             innerList.add(menu.menuDescription)
@@ -114,7 +113,7 @@ class OrderCafeActivity : AppCompatActivity() {
                                 Log.d("orderCafeActivity", "Order Confirm clicked menuIdx: $menuIdx")
                                 if (menuIdx != null) {
                                     for (i in 0 until menuSum.toString().toInt()) {
-                                        requestManager.postOrder(menuIdx.toInt(),
+                                        RequestManager.postOrder(menuIdx.toInt(),
                                             getSharedPreferences("token", MODE_PRIVATE)
                                                 .getString("accessToken", "토큰 없음").toString()) {
                                             Log.d("orderCafeActivity", "postOrderSring: $it")

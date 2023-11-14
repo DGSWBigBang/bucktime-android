@@ -14,7 +14,6 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 
 class MainMainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

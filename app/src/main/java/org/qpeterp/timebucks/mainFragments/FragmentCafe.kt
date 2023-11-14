@@ -15,7 +15,6 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 
 class FragmentCafe : Fragment() {
     private val binding by lazy { FragmentCafeBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: CustomAdapter
 
@@ -29,7 +28,7 @@ class FragmentCafe : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.adapter = adapter
 
-            requestManager.getReservation { data ->
+            RequestManager.getReservation { data ->
                 Log.d("asdfasdf", "$data")
 
                 val dataSet = arrayOf(

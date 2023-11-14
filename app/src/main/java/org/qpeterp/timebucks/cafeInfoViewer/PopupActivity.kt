@@ -14,7 +14,6 @@ import org.qpeterp.timebucks.retrofit.RequestManager
 
 class PopupActivity : Activity() {
     private val binding by lazy { ItemCafeInfoBinding.inflate(layoutInflater) }
-    private val requestManager = RequestManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,17 +28,18 @@ class PopupActivity : Activity() {
 
         //UI 객체생성
 
-        requestManager.getCafeInfo {
+        RequestManager.getCafeInfo {
             Log.d("정보 넣기", "들어옴")
             Log.d("정보의 index", "${tOrF}")
             Log.d("정보", "$it")
-
-            binding.idCafeName.text = it[tOrF].cafeName
-            binding.idCafeAdress.text = it[tOrF].address
-            binding.idCafeInformation.text = it[tOrF].cafeDescription
-            binding.idCafePhoneNumber.text = "카폐 번호: ${it[tOrF].callNumber}"
-            binding.idCafeOpenTime.text = stringSlicing(0, it[tOrF].openTime)
-            binding.idCafeCloseTime.text = stringSlicing(1, it[tOrF].closeTime)
+            with(binding) {
+                idCafeName.text = it[tOrF].cafeName
+                idCafeAdress.text = it[tOrF].address
+                idCafeInformation.text = it[tOrF].cafeDescription
+                idCafePhoneNumber.text = "카폐 번호: ${it[tOrF].callNumber}"
+                idCafeOpenTime.text = stringSlicing(0, it[tOrF].openTime)
+                idCafeCloseTime.text = stringSlicing(1, it[tOrF].closeTime)
+            }
         }
 
         val layoutParams = WindowManager.LayoutParams()
