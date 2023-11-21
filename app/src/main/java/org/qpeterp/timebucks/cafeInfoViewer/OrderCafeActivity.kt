@@ -81,7 +81,7 @@ class OrderCafeActivity : AppCompatActivity() {
 
     private fun click() {
         binding.idOrderButton.setOnClickListener {
-            val menuSum = binding.idOrderSum.text
+            val menuSum = binding.idOrderSum.text.toString().toInt()
             Log.d("pressedResponseButton", "menuSum: $menuSum")
             val menuText = menuOrNull
             Log.d("pressedResponseButton", "menuText: $menuText")
@@ -94,7 +94,7 @@ class OrderCafeActivity : AppCompatActivity() {
                     "메뉴를 선택 해 주세요.",
                     Toast.LENGTH_SHORT
                 ).show()
-                if (menuSum.isNullOrBlank() || menuSum.toString() == "0")
+                if (menuSum.toString().isNullOrBlank() || menuSum == 0)
                     return@setOnClickListener Toast.makeText(
                         this,
                         "1 이상의 갯수를 입력해주세요.",

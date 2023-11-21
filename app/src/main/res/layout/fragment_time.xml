@@ -6,54 +6,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/idDeskName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_semi_bold"
+        android:text="아직 예약된 테이블이 없습니다."
+        app:layout_constraintBottom_toTopOf="@+id/idStartTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/idStartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
-        android:text="이용을 시작한 시간은..."
         android:fontFamily="@font/pretendard_semi_bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:text="아직 예약된 시작시간이 없습니다."
+        app:layout_constraintBottom_toTopOf="@id/idFinishTime"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438" />
+        app:layout_constraintTop_toBottomOf="@id/idDeskName" />
 
     <TextView
         android:id="@+id/idFinishTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이용이 끝나는 시간은..."
         android:fontFamily="@font/pretendard_semi_bold"
+        android:text="아직 예약된 종료시간이 없습니다."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idStartTime"
-        app:layout_constraintVertical_bias="0.425" />
-
-    <TextView
-        android:id="@+id/idDeskName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="테이블의 이름은..."
-        android:fontFamily="@font/pretendard_semi_bold"
-        app:layout_constraintBottom_toTopOf="@+id/idStartTime"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.472" />
-
-    <Button
-        android:id="@+id/showButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="보기"
-        android:backgroundTint="@color/personalButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idFinishTime" />
-
+        app:layout_constraintTop_toBottomOf="@+id/idStartTime" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

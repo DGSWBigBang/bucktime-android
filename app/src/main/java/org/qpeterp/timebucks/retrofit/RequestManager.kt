@@ -49,8 +49,8 @@ object RequestManager {
         })
     }
 
-    fun getReservation(callback: (CafeReservation) -> Unit) {
-        val call = apiService.getReservation()
+    fun getReservation(token: String, callback: (CafeReservation) -> Unit) {
+        val call = apiService.getReservation("Bearer $token")
         Log.d("requManager getReservation", "successful!")
 
         call.enqueue(object : Callback<CafeReservation> {
@@ -65,7 +65,7 @@ object RequestManager {
             }
             override fun onFailure(call: Call<CafeReservation>, t: Throwable) {
                 // 통신 실패 처리
-                Log.d("errorrrrr", "${t}, $call")
+                Log.e("errorrrrr", "$call", t)
             }
         })
 

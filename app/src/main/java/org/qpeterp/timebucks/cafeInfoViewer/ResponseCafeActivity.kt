@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.NumberPicker
+import android.widget.NumberPicker.OnValueChangeListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,13 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import org.qpeterp.timebucks.ReservationRequest
 import org.qpeterp.timebucks.adapter.TableAdapter
 import org.qpeterp.timebucks.databinding.ActivityResponseCafeBinding
+import org.qpeterp.timebucks.retrofit.RequestManager
 import org.qpeterp.timebucks.retrofit.UserRequestManager
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class ResponseCafeActivity : AppCompatActivity() {
     private val binding by lazy { ActivityResponseCafeBinding.inflate(layoutInflater) }
     private val userRequestManager = UserRequestManager()
-    private var confirm: Boolean = false
     private var tableList = ArrayList<ArrayList<String>>()
     private var tableIdx: String? = null
     private var tableOrNull: String? = null
@@ -26,6 +30,7 @@ class ResponseCafeActivity : AppCompatActivity() {
     private var useTableTimeString: String? = null
     private var tOrF: Int? = null
     private val formatter: DecimalFormat = DecimalFormat("###,###")
+    private var numberPicker: NumberPicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,47 +38,47 @@ class ResponseCafeActivity : AppCompatActivity() {
 
         tOrF = intent.getIntExtra("tOrF", -1)
 
+        numberPicker = binding.useTableTime
+
+        val now = System.currentTimeMillis()
+        val date = Date(now)
+        val dateFormat = SimpleDateFormat("HH")
+
+        val getTime = dateFormat.format(date)
+        val hour = getTime.toInt()
+
+        Log.d("now time mm", "$getTime")
+        var closeTime = 0
+
+        RequestManager.getCafeInfo {
+            if (it[tOrF!!].closeTime == "0000") {
+                closeTime = 24
+            }
+            else {
+                closeTime = it[tOrF!!].closeTime.slice(0..1).toInt()
+            }
+            numberPicker!!.maxValue = closeTime - hour
+
+        }
+        numberPicker!!.value = 1
+        numberPicker!!.minValue = 1
+
+
+
         clickResopnseButton()
 
        setRecyclerVeiw()
-
-//        binding.responseButton.setOnClickListener {
-//            userRequestManager.cafe(tOrF+1) {
-//                val useTableTimeString = binding.useTableTime.text.toString().trim()
-//                val useTableIdxString = binding.idResponseTable.text.toString().trim()
-//                if (!confirm) {
-//                    Toast.makeText(this, "확정이 되지 않았습니다.", Toast.LENGTH_SHORT).show()
-//                } else if (useTableIdxString.isNullOrBlank()){
-//                    Toast.makeText(this, "테이블 번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    val useTableTime = useTableTimeString.toInt()
-//                    val useTableIdx = useTableIdxString.toInt()
-//
-//                    if (useTableTime == 0 || useTableIdx == 0) {
-//                        Toast.makeText(this, "테이블 이용 시간이 0입니다.", Toast.LENGTH_SHORT).show()
-//                    } else if (useTableIdx > it.size) {
-//                        Log.d("userRequestManager Cafe It :", "${it.size}")
-//                        Toast.makeText(this, "테이블 번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        val reservationRequest = ReservationRequest(useTableIdx, useTableTime)
-//                        Log.d("짜증나는 에러 1", "화가난다")
-//                        userRequestManager.reservation(reservationRequest, getSharedPreferences("token", MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) {
-//                            Log.d("짜증나는 에러 2", "화가난다2")
-//                            if (it.message == "예약 완료") {
-//                                val nextActivity = Intent(this, OrderCafeActivity::class.java)
-//                                nextActivity.putExtra("tOrF", tOrF) // tOrF 변수를 인텐트에 추가
-//                                startActivity(nextActivity)
-//
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
 
     private fun clickResopnseButton() {
+        numberPicker!!.setWrapSelectorWheel(false) //최대값 or 최소값에서 멈출지 넘어갈지
+
+        numberPicker!!.setOnValueChangedListener(OnValueChangeListener { picker, oldVal, newVal ->
+            useTableTimeString = newVal.toString()
+            Log.d("ResponseCafeActivity", "useTableTimeString : $useTableTimeString")
+        })
+
         binding.responseButton.setOnClickListener {
             val tableText = tableOrNull
             Log.d("pressedResponseButton", "menuText: $tableText")
@@ -81,21 +86,18 @@ class ResponseCafeActivity : AppCompatActivity() {
             Log.d("pressedResponseButton", "menuIdx: $tableIdx")
 
             try {
-                useTableTimeString = binding.useTableTime.text.toString().trim()
                 if (binding.checkedToUseTable.hint.equals("사용할 테이블을 선택해주세요.")) {
                     Toast.makeText(this, "테이블을 선택해 주세요.", Toast.LENGTH_SHORT).show()
-                } else if (useTableTimeString.isNullOrBlank() || useTableTimeString!!.toInt() == 0) {
-                    Toast.makeText(this, "테이블 이용 시간이 잘못되었습니다.", Toast.LENGTH_SHORT).show()
-                } else {
+                }
+                else {
                     for (i in 0 until tableList.size) {
                         if (tableList[i].contains(tableText.toString())) {
                             val msgBuilder = AlertDialog.Builder(this).setCancelable(false)
                                 .setTitle("결제하시겠습니까?")
                                 .setMessage(
-                                    "$tableText ${binding.useTableTime.text}시간\n\n ${
+                                    "$tableText ${useTableTimeString}시간\n\n ${
                                         formatter.format(
-                                            tablePrizes!! * binding.useTableTime.text.toString()
-                                                .toInt()
+                                            tablePrizes!! * useTableTimeString!!.toInt()
                                         )
                                     }원"
                                 )
@@ -155,7 +157,6 @@ class ResponseCafeActivity : AppCompatActivity() {
 
     private fun setRecyclerVeiw() {
         userRequestManager.cafe(tOrF!!+1) {
-            binding.tableMaxNum.text = "테이블의 최대 번호는 ${it.size}번 입니다."
             if (it.size == 0) {
                 val msgBuilder = AlertDialog.Builder(this).setCancelable(false)
                     .setTitle("좌석이 존재하지 않습니다.")
@@ -166,7 +167,6 @@ class ResponseCafeActivity : AppCompatActivity() {
 
                 val msgDlg = msgBuilder.create()
                 msgDlg.show()
-
 
                 return@cafe
             }

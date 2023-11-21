@@ -31,13 +31,12 @@ class FragmentCafe : Fragment() {
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.adapter = adapter
 
-            RequestManager.getReservation { data ->
+            RequestManager.getReservation(requireContext().getSharedPreferences("token", AppCompatActivity.MODE_PRIVATE).getString("accessToken", "토큰 없음").toString()) { data ->
                 Log.d("asdfasdf", "$data")
 
                 val dataSet = arrayOf(
-                    data.rezIdx,
-                    data.deskName, data.startTime, data.finishTime,
-                    data.userMail, data.deskIdx, data.used
+                    data.rezIdx, data.deskName, data.startTime,
+                    data.finishTime, data.userMail
                 )
 
                 Log.d("asdfasdf", "$dataSet")

@@ -25,8 +25,9 @@ interface ApiService {
     fun getCafeData(
     ): Call<ArrayList<CafeInfo>>
 
-    @GET("/rez/show")
+    @GET("/rez/show/user")
     fun getReservation(
+        @Header("Authorization") token: String
     ): Call<CafeReservation>
 
     @POST("/user/login")
